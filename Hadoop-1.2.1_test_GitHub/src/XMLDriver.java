@@ -38,12 +38,6 @@ public class XMLDriver {
 			return new XmlRecordReader();
 		}
 
-		/**
-		 * XMLRecordReader class to read through a given xml document to output
-		 * xml blocks as records as specified by the start tag and end tag
-		 *
-		 */
-
 		public static class XmlRecordReader extends RecordReader<LongWritable, Text> {
 
 			private byte[] startTag;
@@ -139,7 +133,6 @@ public class XMLDriver {
 		protected void map(LongWritable key, Text value, Mapper.Context context) throws IOException, InterruptedException {
 
 			String document = value.toString();
-			System.out.println("‘" + document + "‘");
 			try {
 				XMLStreamReader reader =
 						XMLInputFactory.newInstance().createXMLStreamReader(new
@@ -156,10 +149,10 @@ public class XMLDriver {
 					case XMLStreamConstants.CHARACTERS: //CHARACTERS:
 						if (currentElement.equalsIgnoreCase("name")) {
 							propertyName += reader.getText();
-							System.out.println("propertName"+propertyName);
+							
 						} else if (currentElement.equalsIgnoreCase("value")) {
 							propertyValue += reader.getText();
-							System.out.println("propertyValue"+propertyValue);
+							
 						}
 						break;
 					}
@@ -188,8 +181,7 @@ public class XMLDriver {
 		}
 
 		private Text outputKey = new Text();
-		public void reduce(Text key, Iterable<Text> values, Context context)
-				throws IOException, InterruptedException {
+		public void reduce(Text key, Iterable<Text> values, Context context)throws IOException, InterruptedException {
 			for (Text value : values) {
 				outputKey.set(constructPropertyXml(key, value));​​
 				context.write(outputKey, null);
