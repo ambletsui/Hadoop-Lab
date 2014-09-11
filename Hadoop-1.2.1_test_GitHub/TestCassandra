@@ -1,0 +1,18 @@
+CREATE KEYSPACE test_cassandra WITH REPLICATION = 
+ {'class': 'SimpleStrategy', 'replication_factor': 1};
+ 
+DESCRIBE KEYSPACES;
+ 
+USE test_cassandra;
+ 
+CREATE TABLE test_cassandra_table (
+	 id int,
+	 test_cassandra_value int,
+	 PRIMARY KEY (id)
+);
+ 
+INSERT INTO test_cassandra_table (id, test_cassandra_value) VALUES ('1', 'a');
+INSERT INTO test_cassandra_table (id, test_cassandra_value) VALUES ('2', 'b');
+INSERT INTO test_cassandra_table (id, test_cassandra_value) VALUES ('3', 'c');
+ 
+SELECT * FROM test_cassandra_table;
